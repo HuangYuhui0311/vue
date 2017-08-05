@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js" type="text/javascript"></script>
+    <style>
+        .price{ border:1px solid #000000; margin:0 3px; padding:0 5px; }
+        .price.active{ border-color:red;}
+    </style>
+</head>
+<body>
+<div id="app">
+    <h1>筛选</h1>
+    <price :type-mes="dataType" :data-mes="dataList"></price>
+</div>
+
+<script type="text/x-handlebars-template" id="myTem">
+    <div>
+        价格：
+        <span v-for="type in typeMes" class="price" @click="doChange(type.value)" :class="{active:curChange==type.value}">{{type.label}}</span>
+        <ul>
+            <li v-for="(g,i) in dataFil">{{i+":"+g.name+"("+g.price+")万"}}</li>
+        </ul>
+    </div>
+</script>
+
+<script src="js/price.js"></script>
+</body>
+</html>

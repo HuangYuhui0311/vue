@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--<ul>
+        <li v-for="file in tree">
+            {{file.title}} <span v-if="file.child.length!=0" @click="unfold(file.child)">[+]</span>
+        </li>
+    </ul>-->
+    <ul>
+        <tree :model="treeData"></tree>
+
+    </ul>
+</div>
+
+<script type="text/x-handlebars-template" id="myTree">
+        <li>
+            <div>{{model.title}}<span v-if="model.child" @click="isFlod">[{{ on ? "-" : "+" }}] </span></div>
+            <ul v-if="model.child" v-show="on">
+                <!--<li v-for="model in model.child">{{model.title}}<span v-if="model.child"> [{{ on ? "-" : "+" }}] </span></li>-->
+                <tree v-for="model in model.child" :model="model"></tree>
+                <li @click="addFile">+</li>
+            </ul>
+        </li>
+
+</script>
+
+<script>
+    var menu= {
+            title:'My Tree',
+            child:[
+                {
+                    title:'hello',
+                },
+                {
+                    title:'wat',
+                },
+                {
+                    title:'child folder',
+                    child:[
+                        {
+                            title:'child folder',
+                            child:[
+                                {
+                                    title:'hello',
+                                    child:[
+                                        {
+                                            title:'hello'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+    Vue.component('tree',{
+        template:'#myTree',
+        props:{
+            model:{
+                type:Object
+            }
+        },
+        data:function(){
+            return {
+                on:false
+            }
+        },
+        methods:{
+            isFlod:function(){
+                this.on = !this.on;
+            },
+            addFile:function(){
+                this.model.child.push({
+                    title:'new file'
+                })
+            }
+        }
+    })
+    var app=new Vue({
+        el:'#app',
+        data:{
+            treeData:menu,
+        }
+    })
+</script>
+</body>
+</html>
